@@ -1,6 +1,11 @@
 import { combineReducers } from "redux";
 import { handleActions } from "redux-actions";
-import { taskListRequest, taskListSuccess, taskListFailure } from "./actions";
+import {
+  taskListRequest,
+  taskListSuccess,
+  taskListFailure,
+  droppableChange
+} from "./actions";
 import { createSelector } from "reselect";
 
 export const mapStatus = [
@@ -21,6 +26,13 @@ const taskList = handleActions(
   null
 );
 
+const droppableList = handleActions(
+  {
+    [droppableChange]: (state, action) => action.payload
+  },
+  null
+);
+
 export const getTaskList = createSelector(
   state => state.board,
   board => {
@@ -34,6 +46,12 @@ export const getTaskList = createSelector(
   }
 );
 
+export const getDroppableList = createSelector(
+  state => state.board.droppableList,
+  droppableList => droppableList
+);
+
 export default combineReducers({
-  taskList
+  taskList,
+  droppableList
 });

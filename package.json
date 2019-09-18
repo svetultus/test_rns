@@ -13,6 +13,8 @@
     "final-form-material-ui": "^0.3.0",
     "mapbox-gl": "^1.2.1",
     "react": "^16.5.2",
+    "react-dnd": "^9.3.4",
+    "react-dnd-html5-backend": "^9.3.4",
     "react-dom": "^16.5.2",
     "react-final-form": "^6.3.0",
     "react-redux": "^5.0.7",

@@ -1,13 +1,19 @@
 import React from "react";
 import { Grid } from "@material-ui/core/";
+import { useDrag } from "react-dnd";
 
 export const Task = props => {
   const {
     data: { name, id, status, progress, progressMsg, description, workers }
   } = props;
+
+  const [collectedProps, drag] = useDrag({
+    item: { id: id, status: status, type: status.toString() }
+  });
+
   return (
     props.data && (
-      <Grid item>
+      <Grid item ref={drag}>
         <div>{name}</div>
         <div>{id}</div>
         <div>{progress}</div>
