@@ -6,7 +6,7 @@ export const fetchTaskList = () =>
     .then(result =>
       result.map(item => ({
         ...item,
-        description: item.description.slice(0, 20)
+        description: item.description.slice(0, 150) + "…"
       }))
     );
 

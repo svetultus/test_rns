@@ -5,6 +5,7 @@ import { makeStyles } from "@material-ui/styles";
 import { getTaskList } from "../../modules/Board";
 import Task from "../Task";
 import { useDrop } from "react-dnd";
+import cx from "classnames";
 
 export const List = props => {
   const acceptIndex = [
@@ -22,18 +23,44 @@ export const List = props => {
     collect: mon => ({
       isOver: !!mon.isOver(),
       canDrop: !!mon.canDrop(),
-      item: mon.getItem(),
-      DropResult: mon.getDropResult(),
-      drop: onDrop,
-      mon: mon
+      item: mon.getItem()
     }),
     drop: onDrop
   });
 
+  const useStyles = makeStyles(theme => ({
+    list: {
+      flexDirection: "column",
+      flexShrink: 0,
+      flexGrow: 0,
+      minHeight: "100vh"
+    },
+    list_droppable: {
+      backgroundColor: "lightblue"
+    },
+    list__title: {
+      fontSize: "1.2rem"
+    }
+  }));
+
+  const classes = useStyles();
+
   return (
     taskList && (
-      <Grid container item xs={2} data-status-index={statusIndex} ref={drop}>
-        <h2>
+      <Grid
+        container
+        item
+        xs={2}
+        data-status-index={statusIndex}
+        ref={drop}
+        className={cx(
+          classes.list,
+          collectedProps.canDrop &&
+            collectedProps.isOver &&
+            classes.list_droppable
+        )}
+      >
+        <h2 className={classes.list__title}>
           {status}({taskList.length})
         </h2>
         {taskList.map(item => (

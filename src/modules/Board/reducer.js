@@ -8,8 +8,7 @@ import {
   taskSuccess,
   taskFailure,
   taskMoved,
-  modalOpen,
-  modalClose
+  taskRemoveFromModal
 } from "./actions";
 import { createSelector } from "reselect";
 
@@ -27,7 +26,7 @@ export const taskInModal = handleActions(
     [taskRequest]: state => null,
     [taskSuccess]: (state, action) => action.payload,
     [taskFailure]: state => null,
-    [modalClose]: state => null
+    [taskRemoveFromModal]: state => null
   },
   null
 );

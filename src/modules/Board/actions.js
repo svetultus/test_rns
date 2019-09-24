@@ -9,5 +9,4 @@ export const taskSuccess = createAction("TASK_SUCCESS");
 export const taskFailure = createAction("TASK_FAILURE");
 
 export const taskMoved = createAction("TASK_MOVED");
-export const modalOpen = createAction("MODAL_OPEN");
-export const modalClose = createAction("MODAL_CLOSE");
+export const taskRemoveFromModal = createAction("TASK_REMOVE_FROM_MODAL");

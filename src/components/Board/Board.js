@@ -11,8 +11,7 @@ import {
   taskRequest,
   mapStatus,
   taskMoved,
-  modalOpen,
-  modalClose
+  taskRemoveFromModal
 } from "../../modules/Board";
 import List from "../List";
 
@@ -20,11 +19,12 @@ const MapStateToProps = state => ({
   taskList: getTaskList(state),
   taskInModal: getTaskInModal(state)
 });
+
 const MapDispatchToProps = {
   taskListRequest,
   taskMoved,
   taskRequest,
-  modalClose
+  taskRemoveFromModal
 };
 
 export const Board = props => {
@@ -32,7 +32,7 @@ export const Board = props => {
     props.taskListRequest();
   }, []);
 
-  const { taskList, taskInModal, taskRequest, modalClose } = props;
+  const { taskList, taskInModal, taskRequest, taskRemoveFromModal } = props;
 
   const handleDrop = useCallback((targetIndex, item) => {
     const itemChanged = JSON.parse(JSON.stringify(item));
@@ -41,53 +41,72 @@ export const Board = props => {
   }, []);
 
   const useStyles = makeStyles(theme => ({
-    paper: {
+    board: {
+      backgroundColor: "grey"
+    },
+    modal: {
       position: "absolute",
       width: 400,
       backgroundColor: "white",
       border: "2px solid #000",
       top: "50%",
       left: "50%",
-      transform: "translate(-50%, -50%)"
+      transform: "translate(-50%, -50%)",
+      padding: 20
+    },
+    task__title: {
+      fontSize: "1.5rem",
+      margin: "0.5rem auto"
     }
   }));
 
   const classes = useStyles();
 
   const handleOpen = evt => {
-    const id = evt.target.closest(".MuiGrid-item").dataset.id;
+    const id = evt.target.closest(".task__root").dataset.id;
     taskRequest(Number(id));
   };
 
   const handleClose = () => {
-    modalClose();
+    taskRemoveFromModal();
   };
 
   return (
     taskList && (
       <DndProvider backend={HTML5Backend}>
-        <Grid container wrap="nowrap" spacing={5}>
-          {taskInModal && (
-            <Modal
-              aria-labelledby="simple-modal-title"
-              aria-describedby="simple-modal-description"
-              open={true}
-              onClose={handleClose}
-            >
-              <div className={classes.paper}>
-                <h2 id="simple-modal-title">Text in a modal</h2>
-                <p id="simple-modal-description">
-                  Duis mollis, est non commodo luctus, nisi erat porttitor
-                  ligula.
-                </p>
-                <div>{taskInModal.id}</div>
-                <div>{taskInModal.name}</div>
-                <div>{taskInModal.progress}</div>
-                <div>{taskInModal.progressMsg}</div>
-                <div>{taskInModal.description}</div>
+        {taskInModal && (
+          <Modal
+            aria-labelledby="modal-title"
+            aria-describedby="modal-name"
+            open={true}
+            onClose={handleClose}
+          >
+            <div className={classes.modal}>
+              <h2 id="modal-title" className={classes.task__title}>
+                Задание {taskInModal.id}
+              </h2>
+              <div id="modal-name" className={classes.task__name}>
+                {taskInModal.name}
               </div>
-            </Modal>
-          )}
+              <div className={classes.progress}>
+                {taskInModal.task__progress}
+              </div>
+              <div className={classes.task__progressMsg}>
+                {taskInModal.progressMsg}
+              </div>
+              <div className={classes.task__description}>
+                {taskInModal.description}
+              </div>
+            </div>
+          </Modal>
+        )}
+        <Grid
+          container
+          wrap="nowrap"
+          spacing={5}
+          alignItems="flex-start"
+          className={classes.board}
+        >
           {mapStatus.map((status, index) => (
             <List
               status={status}
