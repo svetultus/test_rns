@@ -4,7 +4,12 @@ import {
   taskListRequest,
   taskListSuccess,
   taskListFailure,
-  taskMoved
+  taskRequest,
+  taskSuccess,
+  taskFailure,
+  taskMoved,
+  modalOpen,
+  modalClose
 } from "./actions";
 import { createSelector } from "reselect";
 
@@ -16,6 +21,16 @@ export const mapStatus = [
   "Корректировки",
   "Готова"
 ];
+
+export const taskInModal = handleActions(
+  {
+    [taskRequest]: state => null,
+    [taskSuccess]: (state, action) => action.payload,
+    [taskFailure]: state => null,
+    [modalClose]: state => null
+  },
+  null
+);
 
 const taskList = handleActions(
   {
@@ -44,6 +59,12 @@ export const getTaskList = createSelector(
   }
 );
 
+export const getTaskInModal = createSelector(
+  state => state.board.taskInModal,
+  taskInModal => taskInModal
+);
+
 export default combineReducers({
-  taskList
+  taskList,
+  taskInModal
 });

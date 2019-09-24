@@ -16,7 +16,7 @@ export const List = props => {
     ["4"]
   ];
 
-  const { status, statusIndex, taskList, onDrop } = props;
+  const { status, statusIndex, taskList, onDrop, openModal } = props;
   const [collectedProps, drop] = useDrop({
     accept: acceptIndex[statusIndex],
     collect: mon => ({
@@ -37,7 +37,7 @@ export const List = props => {
           {status}({taskList.length})
         </h2>
         {taskList.map(item => (
-          <Task key={item.id} data={item}></Task>
+          <Task key={item.id} data={item} openModal={openModal}></Task>
         ))}
       </Grid>
     )

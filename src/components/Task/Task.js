@@ -6,7 +6,7 @@ export const Task = props => {
   const {
     data: { name, id, status, progress, progressMsg, description, workers }
   } = props;
-  const { data } = props;
+  const { data, openModal } = props;
 
   const [collectedProps, drag] = useDrag({
     item: { id: id, status: status, type: status.toString(), data: data }
@@ -14,7 +14,7 @@ export const Task = props => {
 
   return (
     props.data && (
-      <Grid item ref={drag}>
+      <Grid item ref={drag} onClick={openModal} data-id={id}>
         <div>{name}</div>
         <div>{id}</div>
         <div>{progress}</div>
