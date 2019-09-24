@@ -27,14 +27,7 @@ export const List = props => {
       drop: onDrop,
       mon: mon
     }),
-    drop: (collectedProps, monitor) => {
-      console.log(collectedProps.item);
-      console.log(collectedProps.DropResult);
-      console.log(collectedProps);
-      console.log(monitor);
-      console.log("drop DNd");
-      onDrop(collectedProps.item, statusIndex);
-    }
+    drop: onDrop
   });
 
   return (

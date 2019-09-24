@@ -4,7 +4,7 @@ import {
   taskListRequest,
   taskListSuccess,
   taskListFailure,
-  droppableChange
+  taskMoved
 } from "./actions";
 import { createSelector } from "reselect";
 
@@ -21,14 +21,12 @@ const taskList = handleActions(
   {
     [taskListRequest]: (state, action) => null,
     [taskListSuccess]: (state, action) => action.payload,
-    [taskListFailure]: (state, action) => null
-  },
-  null
-);
-
-const droppableList = handleActions(
-  {
-    [droppableChange]: (state, action) => action.payload
+    [taskListFailure]: (state, action) => null,
+    [taskMoved]: (state, action) => {
+      const newState = JSON.parse(JSON.stringify(state));
+      newState[action.payload.id - 1] = action.payload;
+      return newState;
+    }
   },
   null
 );
@@ -46,12 +44,6 @@ export const getTaskList = createSelector(
   }
 );
 
-export const getDroppableList = createSelector(
-  state => state.board.droppableList,
-  droppableList => droppableList
-);
-
 export default combineReducers({
-  taskList,
-  droppableList
+  taskList
 });

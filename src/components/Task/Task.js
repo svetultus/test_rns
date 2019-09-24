@@ -6,9 +6,10 @@ export const Task = props => {
   const {
     data: { name, id, status, progress, progressMsg, description, workers }
   } = props;
+  const { data } = props;
 
   const [collectedProps, drag] = useDrag({
-    item: { id: id, status: status, type: status.toString() }
+    item: { id: id, status: status, type: status.toString(), data: data }
   });
 
   return (

@@ -4,26 +4,28 @@ import HTML5Backend from "react-dnd-html5-backend";
 import { connect } from "react-redux";
 import { Grid } from "@material-ui/core/";
 import { makeStyles } from "@material-ui/styles";
-import { getTaskList, taskListRequest, mapStatus } from "../../modules/Board";
+import {
+  getTaskList,
+  taskListRequest,
+  mapStatus,
+  taskMoved
+} from "../../modules/Board";
 import List from "../List";
 
 const MapStateToProps = state => ({
   taskList: getTaskList(state)
 });
-const MapDispatchToProps = { taskListRequest };
+const MapDispatchToProps = { taskListRequest, taskMoved };
 
 export const Board = props => {
   useEffect(() => {
     props.taskListRequest();
   }, []);
 
-  const handleDrop = useCallback((index, item) => {
-    console.log("handleDrop", item);
+  const handleDrop = useCallback((targetIndex, item) => {
+    item.data.status = targetIndex;
+    props.taskMoved(item.data);
   }, []);
-
-  // componentDidMount() {
-  //   this.props.taskListRequest();
-  // }
 
   const { taskList } = props;
   return (
