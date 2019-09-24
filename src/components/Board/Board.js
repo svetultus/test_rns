@@ -35,8 +35,9 @@ export const Board = props => {
   const { taskList, taskInModal, taskRequest, modalClose } = props;
 
   const handleDrop = useCallback((targetIndex, item) => {
-    item.data.status = targetIndex;
-    props.taskMoved(item.data);
+    const itemChanged = JSON.parse(JSON.stringify(item));
+    itemChanged.data.status = targetIndex;
+    props.taskMoved(itemChanged.data);
   }, []);
 
   const useStyles = makeStyles(theme => ({

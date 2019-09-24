@@ -38,8 +38,9 @@ const taskList = handleActions(
     [taskListSuccess]: (state, action) => action.payload,
     [taskListFailure]: (state, action) => null,
     [taskMoved]: (state, action) => {
-      const newState = JSON.parse(JSON.stringify(state));
-      newState[action.payload.id - 1] = action.payload;
+      const newState = state.slice();
+      const index = newState.findIndex(item => item.id === action.payload.id);
+      newState[index] = action.payload;
       return newState;
     }
   },
